@@ -8,10 +8,6 @@ import sys
 import time
 import urlparse
 
-class HomeHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.render('index.html', addr='', file='')
-
 def fileplay(addr):
     pass
 
@@ -56,8 +52,8 @@ class PlayHandler(tornado.web.RequestHandler):
 
 
     def play(self, addr):
-        addr = addr.replace('https://amnesia.mit.edu/oblivious/Movies/',
-                            'https://marcos:pizzicato@amnesia.mit.edu/oblivious/Movies/')
+        addr = addr.replace('https://amnesia.mit.edu/oblivious/',
+                            'https://marcos:pizzicato@amnesia.mit.edu/oblivious/')
         addr = addr.replace('http://www.youtube.com/watch?',
                             'http://www.youtube.com/watch_popup?')
 
@@ -77,11 +73,14 @@ class PlayHandler(tornado.web.RequestHandler):
             if PlayHandler.chrome_pid == 0:
                 os.execvpe('google-chrome', ['google-chrome', '--app=%s' % addr], { 'DISPLAY': ':0' })
 
+    def post(self):
+        file = self.get_argument('file', '')
+        if file:
+            fileplay(file)
+        self.render('index.html', addr='', file=file)
+
     def get(self):
-        addr = self.get_argument('addr', None)
-        file = self.get_argument('file', None)
+        addr = self.get_argument('addr', '')
         if addr:
             self.play(addr)
-        elif file:
-            fileplay(file)
-        self.render('index.html', addr=addr, file=file)
+        self.render('index.html', addr=addr, file='')

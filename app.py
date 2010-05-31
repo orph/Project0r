@@ -15,8 +15,7 @@ import views
 
 
 urls = [
-    (r"/",     views.HomeHandler),
-    (r"/play", views.PlayHandler),
+    (r"/",     views.PlayHandler),
 ]
 
 

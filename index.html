@@ -2,20 +2,24 @@
 <html>
   <body>
     <center>
-    <form action="/play">
+    <form action="/">
       <h3>YouTube/Amnesia/Hulu Address</h3>
       <input type="text" name="addr" style="width: 300px" value="{{ addr }}" />
       <br/>
       <input type="submit" value="Play">
-      <h1>OR</h1>
-      <h3>Upload video (.MP4, .AVI)</h3>
-      <input type="file" name="file" style="width: 300px" /><br/>
+    </form>
+    <h1>OR</h1>
+    <h3>Upload video (.MP4, .AVI)</h3>
+    <form action="/" method="POST">
+      <input type="file" name="file" /><br/>
       <br/>
       <input type="submit" value="Play">
     </form>
 
-    {% if addr or file %}
-    <h1>Now playing: {{ addr or file }}</h1>
+    {% if addr %}
+    <h3>Now playing: <a href="{{ addr }}">{{ addr }}</a></h3>
+    {% elif file %}
+    <h3>Now playing: <a href="{{ addr }}">{{ file }}</a></h3>
     {% end %}
 
     </center>
