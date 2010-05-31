@@ -1,0 +1,23 @@
+
+<html>
+  <body>
+    <center>
+    <form action="/play">
+      <h3>YouTube/Amnesia/Hulu Address</h3>
+      <input type="text" name="addr" style="width: 300px" value="{{ addr }}" />
+      <br/>
+      <input type="submit" value="Play">
+      <h1>OR</h1>
+      <h3>Upload video (.MP4, .AVI)</h3>
+      <input type="file" name="file" style="width: 300px" /><br/>
+      <br/>
+      <input type="submit" value="Play">
+    </form>
+
+    {% if addr or file %}
+    <h1>Now playing: {{ addr or file }}</h1>
+    {% end %}
+
+    </center>
+  </body>
+</html>
