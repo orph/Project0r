@@ -15,7 +15,8 @@ import views
 
 
 urls = [
-    (r"/",     views.PlayHandler),
+    (r"/",       views.PlayHandler),
+    (r"/upload", views.PlayHandler),
 ]
 
 

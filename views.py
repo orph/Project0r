@@ -6,10 +6,9 @@ import multiprocessing
 import os
 import sys
 import time
+import urllib
 import urlparse
 
-def fileplay(addr):
-    pass
 
 class PlayHandler(tornado.web.RequestHandler):
     wget_pid = None
@@ -51,6 +50,14 @@ class PlayHandler(tornado.web.RequestHandler):
             pass
 
 
+    def play_mplayer(self, filename):
+        os.system("killall -9 mplayer")
+        PlayHandler.mplayer_pid = os.fork()
+        if PlayHandler.mplayer_pid == 0:
+            args = ['mplayer', '-idx', '-cache', '8192', filename]
+            os.execvp('mplayer', args)
+
+
     def play(self, addr):
         addr = addr.replace('https://amnesia.mit.edu/oblivious/',
                             'https://marcos:pizzicato@amnesia.mit.edu/oblivious/')
@@ -61,26 +68,30 @@ class PlayHandler(tornado.web.RequestHandler):
 
         self.kill_helpers()
 
-        if addr_parse.netloc != 'www.youtube.com':
+        if urllib.urlopen(addr).info().gettype() == 'application/octet-stream':
             PlayHandler.wget_pid = os.fork()
             if PlayHandler.wget_pid == 0:
                 os.execvp('wget', ['-q', addr, '--no-check-certificate', '-O', '/tmp/vidfifo'])
-            PlayHandler.mplayer_pid = os.fork()
-            if PlayHandler.mplayer_pid == 0:
-                os.execvp('mplayer', ['mplayer', '-idx', '-cache', '8192', '/tmp/vidfifo'])
+            self.play_mplayer('/tmp/vidfifo')
         else:
             PlayHandler.chrome_pid = os.fork()
             if PlayHandler.chrome_pid == 0:
                 os.execvpe('google-chrome', ['google-chrome', '--app=%s' % addr], { 'DISPLAY': ':0' })
 
     def post(self):
-        file = self.get_argument('file', '')
-        if file:
-            fileplay(file)
-        self.render('index.html', addr='', file=file)
+        name = self.get_argument('file.name')
+        path = self.get_argument('file.path')
+        print "XXX", 'name=%s, path=%s' % (name, path)
+
+        print "XXX path size =", os.stat(path).st_size
+
+        self.kill_helpers()
+        self.play_mplayer(path)
+
+        self.redirect('/?file=%s' % name)
 
     def get(self):
         addr = self.get_argument('addr', '')
         if addr:
             self.play(addr)
-        self.render('index.html', addr=addr, file='')
+        self.render('index.html', addr=addr, file=self.get_argument('file', ''))

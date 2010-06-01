@@ -51,9 +51,9 @@ if __name__ == "__main__":
 
     logging.info('Starting HTTPServer at http://127.0.0.1:80')
     if app.settings['debug']:
-        http_server.listen(80)
+        http_server.listen(8889)
     else:
-        http_server.bind(80)
+        http_server.bind(8889)
         http_server.start() # Forks multiple sub-processes
 
     ioloop.IOLoop.instance().start()

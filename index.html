@@ -1,16 +1,17 @@
 
 <html>
-  <body>
+  <body style="font-family: helvetica;">
     <center>
+    <h1>Project0r</h1>
     <form action="/">
       <h3>YouTube/Amnesia/Hulu Address</h3>
       <input type="text" name="addr" style="width: 300px" value="{{ addr }}" />
       <br/>
       <input type="submit" value="Play">
     </form>
-    <h1>OR</h1>
-    <h3>Upload video (.MP4, .AVI)</h3>
-    <form action="/" method="POST">
+    <h2>OR</h2>
+    <h3>Upload Video (.MP4, .AVI, etc)</h3>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
       <input type="file" name="file" /><br/>
       <br/>
       <input type="submit" value="Play">
@@ -19,7 +20,7 @@
     {% if addr %}
     <h3>Now playing: <a href="{{ addr }}">{{ addr }}</a></h3>
     {% elif file %}
-    <h3>Now playing: <a href="{{ addr }}">{{ file }}</a></h3>
+    <h3>Now playing: {{ file }}</h3>
     {% end %}
 
     </center>
