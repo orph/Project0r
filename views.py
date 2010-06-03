@@ -6,7 +6,6 @@ from Phidgets.PhidgetException import *
 from Phidgets.Events.Events import *
 from Phidgets.Devices.InterfaceKit import *
 
-import multiprocessing
 import os
 import sys
 import time
@@ -61,8 +60,6 @@ class PlayHandler(tornado.web.RequestHandler):
 
 
     def play(self, addr):
-        addr = addr.replace('https://amnesia.mit.edu/oblivious/',
-                            'https://marcos:pizzicato@amnesia.mit.edu/oblivious/')
         addr = addr.replace('http://www.youtube.com/watch?',
                             'http://www.youtube.com/watch_popup?')
 
@@ -103,7 +100,6 @@ class PlayHandler(tornado.web.RequestHandler):
         name = self.get_argument('file.name')
         path = self.get_argument('file.path')
         print "XXX", 'name=%s, path=%s' % (name, path)
-
         print "XXX path size =", os.stat(path).st_size
 
         self.kill_helpers()

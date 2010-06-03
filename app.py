@@ -21,10 +21,9 @@ urls = [
 
 
 settings = {
-    'cookie_secret': 'efd2d36fe8255807e998e660f7a53d71',
+    'cookie_secret': 'f3f65a30dfc94378b7600c4f9e837956',
     'debug': True,
     'auto_reload': True,
-    'user_agent': 'LearnList/1.0 +http://learnlist.com/',
     'youtube_api_key': 'AI39si4rAd8kCv__-DDgXRf2SdQSvVJOCa5VSuuET37SJRtm7O4iqeQ63hggCt8lpDmU7HxWl-ejeKldy0-aeLUkoeKe1Bb6Xw',
 }
 
