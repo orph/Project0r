@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
     http_server = httpserver.HTTPServer(app.app)
 
-    logging.info('Starting HTTPServer at http://127.0.0.1:80')
+    logging.info('Starting HTTPServer at http://127.0.0.1:8889')
     if app.settings['debug']:
         http_server.listen(8889)
     else:
