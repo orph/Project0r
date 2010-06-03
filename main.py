@@ -14,20 +14,6 @@ import sys
 import site
 import time
 
-
-# If 'bokubon_toolchain' is a sibling of the directory containing
-# bokubon_tornado, add that to the python path.
-cwd = os.path.dirname(os.path.abspath(__file__))
-pwd = os.path.dirname(cwd)
-toolchain_dir = os.path.join(pwd, 'bokubon_toolchain')
-if not os.path.exists(toolchain_dir):
-    sys.stderr.write('bokubon_toolchain not found\n')
-    sys.exit(1)
-
-site.addsitedir(toolchain_dir)
-sys.path.insert(0, pwd)
-
-
 from tornado import httpserver, ioloop, options
 
 import app
@@ -39,12 +25,8 @@ options.parse_command_line()
 
 if __name__ == "__main__":
     if options.options.shell:
-        from internal import db
-        import utils
-        code.interact('Learn List Interactive Shell (Ctrl-D to exit)',
-                      local={ '__name__': '__console__',
-                              'db': db,
-                              'utils': utils, })
+        code.interact('Project0r Interactive Shell (Ctrl-D to exit)',
+                      local={ '__name__': '__console__' })
         sys.exit(0)
 
     http_server = httpserver.HTTPServer(app.app)
